@@ -57,3 +57,28 @@ services:
       - "DATABASE__URL=postgres://root:123@db:5432/k8s_proj"
     labels:
       com.list.name: Back
+  front:
+    image: "front:dev"
+    build:
+      context: ../app.front/
+      dockerfile: infra/development.dockerfile
+    ports:
+      - "3010:3010"
+      - "3001:3001"
+      - "3000:3000"
+    depends_on: []
+    volumes:
+      - "../app.front/:/app/"
+    environment:
+      - NODE_ENV=development
+      - DEBUG_COLORS=1
+      - DEBUG_HIDE_DATE=1
+      - NETWORK__PORT=3000
+      - NETWORK__PORT__HMR=3001
+      - NETWORK__PORT__BUNDLE_ANALYSER=3010
+      - NETWORK__CORS=
+      - TEMPLATE__PATH=./index.html
+      - "API__URL=http://localhost:3000"
+    labels:
+      com.list.name: Front
+      com.list.link.analyzer: "Bundle analyzer|http://localhost:3010"
