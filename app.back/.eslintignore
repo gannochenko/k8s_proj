@@ -1,0 +1,5 @@
+build/
+coverage/
+*.test.js
+*.integration.js
+*.mock.js

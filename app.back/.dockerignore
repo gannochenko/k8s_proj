@@ -1,0 +1,17 @@
+.DS_Store
+.idea
+.git
+node_modules
+infra
+script
+.babelrc
+.dockerignore
+.eslintignore
+.eslintrc
+.gitignore
+.prettierignore
+.prettierrc
+README.md
+tsconfig.json
+webpack.js
+yarn-error.log

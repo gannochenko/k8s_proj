@@ -1,0 +1,6 @@
+node_modules/
+*.log
+*.tar.gz
+.idea/
+build/*
+!build/

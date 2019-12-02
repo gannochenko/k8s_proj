@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+    application:
+        build:
+            context: ../../
+            dockerfile: infra/int/Dockerfile
+        expose:
+            - '3010'
+        ports:
+            - '3010'
+
+        depends_on:
+            - db
+        environment:
+            - 'DATABASE__URL=postgres://root:123@db-test:5432/k8s_proj_test'
+
+    db-test:
+        image: postgres
+        expose:
+            - '5432'
+        ports:
+            - '5432'
+        environment:
+            POSTGRES_USER: root
+            POSTGRES_PASSWORD: 123
+            POSTGRES_DB: k8s_proj_test
