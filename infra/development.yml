@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+
+    db:
+        image: postgres
+        expose:
+            - '5432'
+        ports:
+            - '5432:5432'
+        environment:
+            POSTGRES_DB: k8s_proj
+            POSTGRES_USER: root
+            POSTGRES_PASSWORD: 123
+    db.gui:
+        image: adminer
+        expose:
+            - '8080'
+        ports:
+            - '8080:8080'
+        depends_on:
+            - db
+        labels:
+            com.list.name: 'Adminer'
+            com.list.sort: '2'
+            com.list.link.endpoint: 'Browse database|/?pgsql=db&username=root&db=k8s_proj&ns=public'
+
+
+
+    container-list:
+        image: 'awesome1888/container-list'
+        expose:
+            - '2000'
+        ports:
+            - '2000:2000'
+        volumes:
+            - '/var/run/docker.sock:/var/run/docker.sock:ro'
+        environment:
+            - PORT=2000
