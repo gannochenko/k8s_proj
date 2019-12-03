@@ -1,9 +1,9 @@
-resource "kubernetes_deployment" "k8s-proj-back" {
+resource "kubernetes_deployment" "k8s-proj-front" {
   metadata {
-    name = "k8s-proj-back"
+    name = "k8s-proj-front"
     namespace = "k8s-proj-prod"
     labels = {
-      name = "k8s-proj-back"
+      name = "k8s-proj-front"
     }
   }
 
@@ -12,7 +12,7 @@ resource "kubernetes_deployment" "k8s-proj-back" {
 
     selector {
       match_labels = {
-        name = "k8s-proj-back"
+        name = "k8s-proj-front"
       }
     }
 
@@ -20,14 +20,14 @@ resource "kubernetes_deployment" "k8s-proj-back" {
       metadata {
         namespace = "k8s-proj-prod"
         labels = {
-          name = "k8s-proj-back"
+          name = "k8s-proj-front"
         }
       }
 
       spec {
         container {
-          image = "awesome1888/k8s_proj_back:1.0.0"
-          name  = "k8s-proj-back"
+          image = "awesome1888/k8s_proj_front:1.0.0"
+          name  = "k8s-proj-front"
 
           env {
             name = "NETWORK__HOST"
@@ -36,7 +36,7 @@ resource "kubernetes_deployment" "k8s-proj-back" {
 
           env {
             name = "NETWORK__PORT"
-            value = "4000"
+            value = "3000"
           }
 
           env {
@@ -45,8 +45,8 @@ resource "kubernetes_deployment" "k8s-proj-back" {
           }
 
           env {
-            name = "DATABASE__URL"
-            value = ""
+            name = "API__URL"
+            value = "https://api.k8s-proj.info"
           }
         }
       }
@@ -54,17 +54,17 @@ resource "kubernetes_deployment" "k8s-proj-back" {
   }
 }
 
-resource "kubernetes_service" "k8s-proj-back" {
+resource "kubernetes_service" "k8s-proj-front" {
   metadata {
-    name = "k8s-proj-back"
+    name = "k8s-proj-front"
     namespace = "k8s-proj-prod"
   }
   spec {
     selector = {
-      name = "k8s-proj-back"
+      name = "k8s-proj-front"
     }
     port {
-      port = 4000
+      port = 3000
     }
   }
 }

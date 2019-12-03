@@ -45,6 +45,10 @@ resource "kubernetes_ingress" "k8s-proj" {
   }
 }
 
-module "app_back" {
+module "app-back" {
   source = "../../app.back/infra/terraform/"
+}
+
+module "app-front" {
+  source = "../../app.front/infra/terraform/"
 }
