@@ -9,4 +9,6 @@ TAG=${VENDOR}/${APPLICATION_NAME}:${VERSION}
 
 echo Building ${TAG} image;
 
+yarn;
+yarn run build;
 docker build --no-cache -t ${TAG} -f infra/production.dockerfile .;

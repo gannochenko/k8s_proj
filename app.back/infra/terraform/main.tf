@@ -1,40 +1,81 @@
-resource "kubernetes_pod" "nginx" {
+resource "kubernetes_deployment" "k8s-proj-back" {
   metadata {
-    name = "nginx-example"
+    name = "k8s-proj-back"
+    namespace = "k8s-proj-prod"
     labels = {
-      App = "nginx"
+      name = "k8s-proj-back"
     }
   }
 
   spec {
-    container {
-      image = "nginx:1.7.8"
-      name  = "example"
+    replicas = 2
 
-      port {
-        container_port = 80
+    selector {
+      match_labels = {
+        name = "k8s-proj-back"
+      }
+    }
+
+    template {
+      metadata {
+        namespace = "k8s-proj-prod"
+        labels = {
+          name = "k8s-proj-back"
+        }
+      }
+
+      spec {
+        container {
+          image = "awesome1888/k8s_proj_back:1.0.0"
+          name  = "k8s-proj-back"
+
+          env {
+            name = "NETWORK__PORT"
+            value = "4000"
+          }
+
+          //          resources {
+          //            limits {
+          //              cpu    = "0.5"
+          //              memory = "512Mi"
+          //            }
+          //            requests {
+          //              cpu    = "250m"
+          //              memory = "50Mi"
+          //            }
+          //          }
+          //
+          //          liveness_probe {
+          //            http_get {
+          //              path = "/nginx_status"
+          //              port = 80
+          //
+          //              http_header {
+          //                name  = "X-Custom-Header"
+          //                value = "Awesome"
+          //              }
+          //            }
+          //
+          //            initial_delay_seconds = 3
+          //            period_seconds        = 3
+          //          }
+        }
       }
     }
   }
 }
 
-resource "kubernetes_service" "nginx" {
+resource "kubernetes_service" "k8s-proj-back" {
   metadata {
-    name = "nginx-example"
+    name = "k8s-proj-back"
+    namespace = "k8s-proj-prod"
   }
   spec {
     selector = {
-      App = kubernetes_pod.nginx.metadata[0].labels.App
+      name = "k8s-proj-back"
     }
     port {
-      port        = 3000
-      target_port = 80
+      port = 4000
     }
-
-    type = "LoadBalancer"
   }
-}
-
-output "lb_ip" {
-  value = kubernetes_service.nginx.load_balancer_ingress[0].hostname
 }

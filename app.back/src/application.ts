@@ -43,7 +43,7 @@ import { controllers } from './controller';
     const database = new Database({ settings });
 
     useControllers(app, controllers, async () => ({
-        connection: await database.getConnection(),
+        // connection: await database.getConnection(),
     }));
 
     app.listen({ port }, () => {
