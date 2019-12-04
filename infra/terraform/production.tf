@@ -22,22 +22,33 @@ resource "kubernetes_ingress" "k8s-proj" {
 
   spec {
     backend {
-      service_name = "k8s-proj-back"
-      service_port = 4000
+      service_name = "k8s-proj-front"
+      service_port = 3000
     }
 
-    //    rule {
-    //      http {
-    //        path {
-    //          backend {
-    //            service_name = "k8s-proj"
-    //            service_port = 8080
-    //          }
-    //
-    //          path = "/"
-    //        }
-    //      }
-    //    }
+    rule {
+      host = "api.k8s-proj.info"
+      http {
+        path {
+          backend {
+            service_name = "k8s-proj-back"
+            service_port = 4000
+          }
+        }
+      }
+    }
+
+    rule {
+      host = "k8s-proj.info"
+      http {
+        path {
+          backend {
+            service_name = "k8s-proj-front"
+            service_port = 3000
+          }
+        }
+      }
+    }
 
     //    tls {
     //      secret_name = "tls-secret"
