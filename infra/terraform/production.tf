@@ -21,10 +21,10 @@ resource "kubernetes_ingress" "k8s-proj" {
   }
 
   spec {
-    backend {
-      service_name = "k8s-proj-front"
-      service_port = 3000
-    }
+//    backend {
+//      service_name = "k8s-proj-front"
+//      service_port = 3000
+//    }
 
     rule {
       host = "api.k8s-proj.info"
