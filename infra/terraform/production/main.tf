@@ -86,7 +86,7 @@ resource "kubernetes_job" "letsencrypt" {
       spec {
         container {
           name = "letsencrypt"
-          image = "quay.io/hiphipjorge/kube-nginx-letsencrypt:latest"
+          image = "sjenning/kube-nginx-letsencrypt:latest"
           image_pull_policy = "Always"
           port {
             name = "letsencrypt"
