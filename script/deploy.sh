@@ -2,7 +2,7 @@
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )";
 
-cd ${DIR}/../infra/terraform;
+cd ${DIR}/../infra/terraform/production;
 
 # todo: terraform get? terraform init?
 terraform apply -auto-approve;
