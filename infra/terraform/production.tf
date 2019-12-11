@@ -27,7 +27,7 @@ resource "kubernetes_ingress" "k8s-proj" {
 //    }
 
     rule {
-      host = "api.k8s-proj.info"
+      host = "api.kreuz39.ru"
       http {
         path {
           backend {
@@ -39,7 +39,7 @@ resource "kubernetes_ingress" "k8s-proj" {
     }
 
     rule {
-      host = "k8s-proj.info"
+      host = "kreuz39.ru"
       http {
         path {
           backend {
