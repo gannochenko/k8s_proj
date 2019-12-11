@@ -78,7 +78,6 @@ resource "kubernetes_job" "letsencrypt" {
     template {
       metadata {
         name = "letsencrypt"
-//        namespace = "k8s-proj-prod"
         labels = {
           name = "letsencrypt"
         }
@@ -86,7 +85,7 @@ resource "kubernetes_job" "letsencrypt" {
       spec {
         container {
           name = "letsencrypt"
-          image = "sjenning/kube-nginx-letsencrypt:latest"
+          image = "cvando/kube-nginx-letsencrypt:latest"
           image_pull_policy = "Always"
           port {
             name = "letsencrypt"
