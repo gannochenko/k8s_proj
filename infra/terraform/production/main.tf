@@ -52,7 +52,7 @@ resource "kubernetes_ingress" "k8s-proj" {
         path {
           path = "/.well-known"
           backend {
-            service_name = "k8s-proj-letsencrypt"
+            service_name = "letsencrypt"
             service_port = 80
           }
         }
