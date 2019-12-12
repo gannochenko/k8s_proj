@@ -122,7 +122,7 @@ resource "kubernetes_job" "letsencrypt" {
 
         container {
           name = "letsencrypt"
-          image = "awesome1888/kube-nginx-letsencrypt:latest"
+          image = "awesome1888/k8s-letsencrypt:latest"
           image_pull_policy = "Always"
           port {
             name = "letsencrypt"
