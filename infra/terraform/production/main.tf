@@ -79,7 +79,7 @@ resource "kubernetes_role" "letsencrypt-certs-update" {
     api_groups     = [""]
     resources      = ["secrets"]
     resource_names = ["letsencrypt-certs"]
-    verbs          = ["patch"]
+    verbs          = ["patch", "post"]
   }
 }
 
@@ -95,21 +95,9 @@ resource "kubernetes_role_binding" "letsencrypt-certs-update" {
   }
   subject {
     kind      = "ServiceAccount"
-//    name      = "system:serviceaccount:k8s-proj-prod:default"
     name      = "default"
     namespace = "k8s-proj-prod"
-//    api_group = "rbac.authorization.k8s.io"
   }
-//  subject {
-//    kind      = "ServiceAccount"
-//    name      = "default"
-//    namespace = "kube-system"
-//  }
-//  subject {
-//    kind      = "Group"
-//    name      = "system:masters"
-//    api_group = "rbac.authorization.k8s.io"
-//  }
 }
 
 resource "kubernetes_job" "letsencrypt" {
