@@ -1,37 +1,3 @@
-resource "kubernetes_role" "letsencrypt-certs-update" {
-  metadata {
-    name = "letsencrypt-certs-update"
-    namespace = "k8s-proj-prod"
-    labels = {
-      test = "letsencrypt-certs-update"
-    }
-  }
-
-  rule {
-    api_groups     = [""]
-    resources      = ["secrets"]
-    resource_names = ["letsencrypt-certs"]
-    verbs          = ["patch", "post"]
-  }
-}
-
-resource "kubernetes_role_binding" "letsencrypt-certs-update" {
-  metadata {
-    name      = "letsencrypt-certs-update"
-    namespace = "k8s-proj-prod"
-  }
-  role_ref {
-    kind      = "Role"
-    name      = "letsencrypt-certs-update"
-    api_group = "rbac.authorization.k8s.io"
-  }
-  subject {
-    kind      = "ServiceAccount"
-    name      = "default"
-    namespace = "k8s-proj-prod"
-  }
-}
-
 resource "kubernetes_job" "letsencrypt" {
   metadata {
     name = "letsencrypt"
@@ -102,4 +68,38 @@ resource "kubernetes_secret" "letsencrypt" {
   }
 
   type = "Opaque"
+}
+
+resource "kubernetes_role" "letsencrypt-certs-update" {
+  metadata {
+    name = "letsencrypt-certs-update"
+    namespace = "k8s-proj-prod"
+    labels = {
+      test = "letsencrypt-certs-update"
+    }
+  }
+
+  rule {
+    api_groups     = [""]
+    resources      = ["secrets"]
+    resource_names = ["letsencrypt-certs"]
+    verbs          = ["patch", "post"]
+  }
+}
+
+resource "kubernetes_role_binding" "letsencrypt-certs-update" {
+  metadata {
+    name      = "letsencrypt-certs-update"
+    namespace = "k8s-proj-prod"
+  }
+  role_ref {
+    kind      = "Role"
+    name      = "letsencrypt-certs-update"
+    api_group = "rbac.authorization.k8s.io"
+  }
+  subject {
+    kind      = "ServiceAccount"
+    name      = "default"
+    namespace = "k8s-proj-prod"
+  }
 }
