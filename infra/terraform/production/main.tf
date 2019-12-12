@@ -79,7 +79,7 @@ resource "kubernetes_role" "letsencrypt-certs-update" {
     api_groups     = [""]
     resources      = ["secrets"]
     resource_names = ["letsencrypt-certs"]
-    verbs          = ["update"]
+    verbs          = ["patch"]
   }
 }
 
