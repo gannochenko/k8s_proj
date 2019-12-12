@@ -1,7 +1,7 @@
 resource "kubernetes_ingress" "k8s-proj" {
   metadata {
-    name = "k8s-proj"
-    namespace = "k8s-proj-prod"
+    name      = "k8s-proj"
+    namespace = var.namespace
   }
 
   spec {
@@ -10,13 +10,13 @@ resource "kubernetes_ingress" "k8s-proj" {
     //      service_port = 3000
     //    }
     rule {
-      host = "balticlegacy.ru"
+      host = var.app-front-host
       http {
         path {
           path = "/"
           backend {
             service_name = "k8s-proj-front"
-            service_port = 3000
+            service_port = var.app-front-service-port
           }
         }
         path {
@@ -30,19 +30,26 @@ resource "kubernetes_ingress" "k8s-proj" {
     }
 
     rule {
-      host = "api.balticlegacy.ru"
+      host = var.app-back-host
       http {
         path {
           backend {
             service_name = "k8s-proj-back"
-            service_port = 4000
+            service_port = var.app-back-service-port
+          }
+        }
+        path {
+          path = "/.well-known"
+          backend {
+            service_name = "letsencrypt"
+            service_port = 80
           }
         }
       }
     }
 
     tls {
-      hosts       = ["balticlegacy.ru", "api.balticlegacy.ru"]
+      hosts       = [var.app-front-host, var.app-back-host]
       secret_name = "letsencrypt-certs"
     }
   }

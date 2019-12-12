@@ -1,7 +1,7 @@
 resource "kubernetes_job" "letsencrypt" {
   metadata {
     name = "letsencrypt"
-    namespace = "k8s-proj-prod"
+    namespace = var.namespace
     labels = {
       name = "letsencrypt"
     }
@@ -19,23 +19,23 @@ resource "kubernetes_job" "letsencrypt" {
         automount_service_account_token = "true"
 
         container {
-          name = "letsencrypt"
-          image = "awesome1888/k8s-letsencrypt:latest"
+          name              = "letsencrypt"
+          image             = "awesome1888/k8s-letsencrypt:latest"
           image_pull_policy = "Always"
           port {
-            name = "letsencrypt"
-            container_port = 80
+            name            = "letsencrypt"
+            container_port  = 80
           }
           env {
-            name = "DOMAINS"
+            name  = "DOMAINS"
             value = "balticlegacy.ru"
           }
           env {
-            name = "EMAIL"
+            name  = "EMAIL"
             value = "admin@email.com"
           }
           env {
-            name = "SECRET"
+            name  = "SECRET"
             value = "letsencrypt-certs"
           }
         }
@@ -47,24 +47,24 @@ resource "kubernetes_job" "letsencrypt" {
 
 resource "kubernetes_service" "letsencrypt" {
   metadata {
-    name = "letsencrypt"
-    namespace = "k8s-proj-prod"
+    name      = "letsencrypt"
+    namespace = var.namespace
   }
   spec {
     selector = {
       name = "letsencrypt"
     }
     port {
-      protocol = "TCP"
-      port = 80
+      protocol  = "TCP"
+      port      = 80
     }
   }
 }
 
 resource "kubernetes_secret" "letsencrypt" {
   metadata {
-    name = "letsencrypt-certs"
-    namespace = "k8s-proj-prod"
+    name      = "letsencrypt-certs"
+    namespace = var.namespace
   }
 
   type = "Opaque"
@@ -72,8 +72,8 @@ resource "kubernetes_secret" "letsencrypt" {
 
 resource "kubernetes_role" "letsencrypt-certs-update" {
   metadata {
-    name = "letsencrypt-certs-update"
-    namespace = "k8s-proj-prod"
+    name      = "letsencrypt-certs-update"
+    namespace = var.namespace
     labels = {
       test = "letsencrypt-certs-update"
     }
@@ -87,7 +87,7 @@ resource "kubernetes_role" "letsencrypt-certs-update" {
   }
 }
 
-resource "kubernetes_role_binding" "letsencrypt-certs-update" {
+resource "kubernetes_role_binding" "letsencrypt-certs-update-to-sa" {
   metadata {
     name      = "letsencrypt-certs-update"
     namespace = "k8s-proj-prod"
