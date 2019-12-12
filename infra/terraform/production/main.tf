@@ -28,7 +28,7 @@ resource "kubernetes_ingress" "k8s-proj" {
 //    }
 
     rule {
-      host = "api.kreuz39.ru"
+      host = "api.balticlegacy.ru"
       http {
         path {
           backend {
@@ -40,7 +40,7 @@ resource "kubernetes_ingress" "k8s-proj" {
     }
 
     rule {
-      host = "kreuz39.ru"
+      host = "balticlegacy.ru"
       http {
         path {
           path = "/"
@@ -60,7 +60,7 @@ resource "kubernetes_ingress" "k8s-proj" {
     }
 
     tls {
-      hosts       = ["kreuz39.ru"]
+      hosts       = ["balticlegacy.ru"]
       secret_name = "letsencrypt-certs"
     }
   }
@@ -130,7 +130,7 @@ resource "kubernetes_job" "letsencrypt" {
           }
           env {
             name = "DOMAINS"
-            value = "kreuz39.ru"
+            value = "balticlegacy.ru"
           }
           env {
             name = "EMAIL"
