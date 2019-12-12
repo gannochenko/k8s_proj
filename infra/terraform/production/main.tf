@@ -26,19 +26,6 @@ resource "kubernetes_ingress" "k8s-proj" {
 //      service_name = "k8s-proj-front"
 //      service_port = 3000
 //    }
-
-    rule {
-      host = "api.balticlegacy.ru"
-      http {
-        path {
-          backend {
-            service_name = "k8s-proj-back"
-            service_port = 4000
-          }
-        }
-      }
-    }
-
     rule {
       host = "balticlegacy.ru"
       http {
@@ -59,8 +46,20 @@ resource "kubernetes_ingress" "k8s-proj" {
       }
     }
 
+    rule {
+      host = "api.balticlegacy.ru"
+      http {
+        path {
+          backend {
+            service_name = "k8s-proj-back"
+            service_port = 4000
+          }
+        }
+      }
+    }
+
     tls {
-      hosts       = ["balticlegacy.ru"]
+      hosts       = ["balticlegacy.ru", "api.balticlegacy.ru"]
       secret_name = "letsencrypt-certs"
     }
   }
