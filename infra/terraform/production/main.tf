@@ -60,10 +60,56 @@ resource "kubernetes_ingress" "k8s-proj" {
     }
 
     tls {
-      hosts = ["kreuz39.ru"]
+      hosts       = ["kreuz39.ru"]
       secret_name = "letsencrypt-certs"
     }
   }
+}
+
+resource "kubernetes_role" "letsencrypt-certs-update" {
+  metadata {
+    name = "letsencrypt-certs-update"
+    namespace = "k8s-proj-prod"
+    labels = {
+      test = "letsencrypt-certs-update"
+    }
+  }
+
+  rule {
+    api_groups     = [""]
+    resources      = ["secrets"]
+    resource_names = ["letsencrypt-certs"]
+    verbs          = ["update"]
+  }
+}
+
+resource "kubernetes_role_binding" "letsencrypt-certs-update" {
+  metadata {
+    name      = "letsencrypt-certs-update"
+    namespace = "k8s-proj-prod"
+  }
+  role_ref {
+    kind      = "Role"
+    name      = "letsencrypt-certs-update"
+    api_group = "rbac.authorization.k8s.io"
+  }
+  subject {
+    kind      = "ServiceAccount"
+//    name      = "system:serviceaccount:k8s-proj-prod:default"
+    name      = "default"
+    namespace = "k8s-proj-prod"
+//    api_group = "rbac.authorization.k8s.io"
+  }
+//  subject {
+//    kind      = "ServiceAccount"
+//    name      = "default"
+//    namespace = "kube-system"
+//  }
+//  subject {
+//    kind      = "Group"
+//    name      = "system:masters"
+//    api_group = "rbac.authorization.k8s.io"
+//  }
 }
 
 resource "kubernetes_job" "letsencrypt" {
@@ -84,6 +130,8 @@ resource "kubernetes_job" "letsencrypt" {
         }
       }
       spec {
+        automount_service_account_token = "true"
+
         container {
           name = "letsencrypt"
           image = "awesome1888/kube-nginx-letsencrypt:latest"
