@@ -87,7 +87,23 @@ resource "kubernetes_role" "letsencrypt-certs-update" {
     api_groups     = [""]
     resources      = ["secrets"]
     resource_names = ["letsencrypt-certs"]
-    verbs          = ["patch", "update", "create"]
+    verbs          = ["patch", "update"]
+  }
+}
+
+resource "kubernetes_role" "letsencrypt-certs-create" {
+  metadata {
+    name      = "letsencrypt-certs-create"
+    namespace = local.namespace
+    labels = {
+      test = "letsencrypt-certs-create"
+    }
+  }
+
+  rule {
+    api_groups     = [""]
+    resources      = ["secrets"]
+    verbs          = ["create"]
   }
 }
 
@@ -100,6 +116,23 @@ resource "kubernetes_role_binding" "letsencrypt-certs-update" {
   role_ref {
     kind      = "Role"
     name      = "letsencrypt-certs-update"
+    api_group = "rbac.authorization.k8s.io"
+  }
+  subject {
+    kind      = "ServiceAccount"
+    name      = "default"
+    namespace = local.namespace
+  }
+}
+
+resource "kubernetes_role_binding" "letsencrypt-certs-create" {
+  metadata {
+    name      = "letsencrypt-certs-create"
+    namespace = local.namespace
+  }
+  role_ref {
+    kind      = "Role"
+    name      = "letsencrypt-certs-create"
     api_group = "rbac.authorization.k8s.io"
   }
   subject {
