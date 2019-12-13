@@ -10,4 +10,4 @@ if [[ ! -d ./.terraform ]]; then
     terraform get
 fi
 
-terraform plan -var="env=${ENV}" -state=./${ENV}/terraform.tfstate;
+terraform plan -var="env=${ENV}" -state=./state/${ENV}/terraform.tfstate;
