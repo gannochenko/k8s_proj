@@ -3,6 +3,8 @@ locals {
   hosts = [local.app-front-host, local.app-back-host]
 }
 
+# todo: use data here?
+
 locals {
   app-front-host = local.baseurl
   app-front-port = 3000
