@@ -5,4 +5,9 @@ ENV="${1:-prod}"
 
 cd ${DIR}/../infra/terraform/;
 
-terraform plan -var="env=${ENV}" -state=./${ENV}/terraform.fstate;
+if [[ ! -d ./.terraform ]]; then
+    terraform init
+    terraform get
+fi
+
+terraform plan -var="env=${ENV}" -state=./${ENV}/terraform.tfstate;
