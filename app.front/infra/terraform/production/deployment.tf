@@ -1,7 +1,7 @@
 resource "kubernetes_deployment" "k8s-proj-front" {
   metadata {
     name = "k8s-proj-front"
-    namespace = "k8s-proj-prod"
+    namespace = var.namespace
     labels = {
       name = "k8s-proj-front"
     }
@@ -18,7 +18,7 @@ resource "kubernetes_deployment" "k8s-proj-front" {
 
     template {
       metadata {
-        namespace = "k8s-proj-prod"
+        namespace = var.namespace
         labels = {
           name = "k8s-proj-front"
         }
@@ -31,12 +31,12 @@ resource "kubernetes_deployment" "k8s-proj-front" {
 
           env {
             name = "NETWORK__HOST"
-            value = ""
+            value = var.host
           }
 
           env {
             name = "NETWORK__PORT"
-            value = "3000"
+            value = var.port
           }
 
           env {
@@ -46,7 +46,7 @@ resource "kubernetes_deployment" "k8s-proj-front" {
 
           env {
             name = "API__URL"
-            value = "https://api.balticlegacy.ru"
+            value = var.api-url
           }
         }
       }

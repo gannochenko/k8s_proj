@@ -10,5 +10,5 @@ variable "host" {
 
 variable "port" {
   type = number
-  default = 3000
+  default = 4000
 }

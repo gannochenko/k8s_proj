@@ -12,4 +12,5 @@ module "app-front" {
   namespace = local.namespace
   host = local.app-front-host
   port = local.app-front-port
+  api-url = "https://${local.app-back-host}"
 }
