@@ -48,6 +48,16 @@ resource "kubernetes_deployment" "k8s-proj-back" {
             name = "DATABASE__URL"
             value = ""
           }
+
+          liveness_probe {
+            http_get {
+              path = "/health"
+              port = var.port
+            }
+
+            initial_delay_seconds = 3
+            period_seconds        = 3
+          }
         }
       }
     }
