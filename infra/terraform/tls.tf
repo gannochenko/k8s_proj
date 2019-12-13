@@ -38,10 +38,10 @@ resource "kubernetes_job" "letsencrypt" {
             name  = "SECRET"
             value = "letsencrypt-certs"
           }
-//          env {
-//            name  = "STAGING"
-//            value = "1"
-//          }
+          env {
+            name  = "STAGING"
+            value = "1"
+          }
         }
         restart_policy = "Never"
       }
@@ -65,14 +65,14 @@ resource "kubernetes_service" "letsencrypt" {
   }
 }
 
-resource "kubernetes_secret" "letsencrypt" {
-  metadata {
-    name      = "letsencrypt-certs"
-    namespace = local.namespace
-  }
-
-  type = "Opaque"
-}
+//resource "kubernetes_secret" "letsencrypt" {
+//  metadata {
+//    name      = "letsencrypt-certs"
+//    namespace = local.namespace
+//  }
+//
+//  type = "Opaque"
+//}
 
 resource "kubernetes_role" "letsencrypt-certs-update" {
   metadata {
