@@ -1,5 +1,5 @@
 module "app-back" {
-  source = "../../../app.back/infra/terraform"
+  source = "../../app.back/infra/terraform"
 
   namespace = local.namespace
   host = local.app-back-host
@@ -7,7 +7,7 @@ module "app-back" {
 }
 
 module "app-front" {
-  source = "../../../app.front/infra/terraform"
+  source = "../../app.front/infra/terraform"
 
   namespace = local.namespace
   host = local.app-front-host
