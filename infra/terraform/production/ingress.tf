@@ -1,7 +1,8 @@
+# todo: rename "k8s-proj" to "ingress"
 resource "kubernetes_ingress" "k8s-proj" {
   metadata {
     name      = "k8s-proj"
-    namespace = var.namespace
+    namespace = local.namespace
   }
 
   spec {
@@ -10,13 +11,13 @@ resource "kubernetes_ingress" "k8s-proj" {
     //      service_port = 3000
     //    }
     rule {
-      host = var.app-front-host
+      host = local.app-front-host
       http {
         path {
           path = "/"
           backend {
-            service_name = "k8s-proj-front"
-            service_port = var.app-front-service-port
+            service_name = "k8s-proj-front" # todo: rename to "front"
+            service_port = local.app-front-port
           }
         }
         path {
@@ -30,12 +31,12 @@ resource "kubernetes_ingress" "k8s-proj" {
     }
 
     rule {
-      host = var.app-back-host
+      host = local.app-back-host
       http {
         path {
           backend {
             service_name = "k8s-proj-back"
-            service_port = var.app-back-service-port
+            service_port = local.app-back-port
           }
         }
         path {
@@ -49,7 +50,7 @@ resource "kubernetes_ingress" "k8s-proj" {
     }
 
     tls {
-      hosts       = [var.app-front-host, var.app-back-host]
+      hosts       = local.hosts
       secret_name = "letsencrypt-certs"
     }
   }

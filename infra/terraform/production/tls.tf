@@ -1,7 +1,7 @@
 resource "kubernetes_job" "letsencrypt" {
   metadata {
     name = "letsencrypt"
-    namespace = var.namespace
+    namespace = local.namespace
     labels = {
       name = "letsencrypt"
     }
@@ -28,7 +28,7 @@ resource "kubernetes_job" "letsencrypt" {
           }
           env {
             name  = "DOMAINS"
-            value = "balticlegacy.ru"
+            value = local.domains
           }
           env {
             name  = "EMAIL"
@@ -48,7 +48,7 @@ resource "kubernetes_job" "letsencrypt" {
 resource "kubernetes_service" "letsencrypt" {
   metadata {
     name      = "letsencrypt"
-    namespace = var.namespace
+    namespace = local.namespace
   }
   spec {
     selector = {
@@ -64,7 +64,7 @@ resource "kubernetes_service" "letsencrypt" {
 resource "kubernetes_secret" "letsencrypt" {
   metadata {
     name      = "letsencrypt-certs"
-    namespace = var.namespace
+    namespace = local.namespace
   }
 
   type = "Opaque"
@@ -73,7 +73,7 @@ resource "kubernetes_secret" "letsencrypt" {
 resource "kubernetes_role" "letsencrypt-certs-update" {
   metadata {
     name      = "letsencrypt-certs-update"
-    namespace = var.namespace
+    namespace = local.namespace
     labels = {
       test = "letsencrypt-certs-update"
     }
@@ -91,7 +91,7 @@ resource "kubernetes_role" "letsencrypt-certs-update" {
 resource "kubernetes_role_binding" "letsencrypt-certs-update" {
   metadata {
     name      = "letsencrypt-certs-update"
-    namespace = "k8s-proj-prod"
+    namespace = local.namespace
   }
   role_ref {
     kind      = "Role"
@@ -101,6 +101,6 @@ resource "kubernetes_role_binding" "letsencrypt-certs-update" {
   subject {
     kind      = "ServiceAccount"
     name      = "default"
-    namespace = "k8s-proj-prod"
+    namespace = local.namespace
   }
 }

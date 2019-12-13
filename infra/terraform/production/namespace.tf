@@ -2,13 +2,13 @@
 resource "kubernetes_namespace" "k8s_proj_prod" {
   metadata {
     annotations = {
-      name = "k8s-proj-prod"
+      name = local.namespace
     }
 
     labels = {
-      name = "k8s-proj-prod"
+      name = local.namespace
     }
 
-    name = "k8s-proj-prod"
+    name = local.namespace
   }
 }

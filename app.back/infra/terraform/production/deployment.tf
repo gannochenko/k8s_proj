@@ -1,7 +1,7 @@
 resource "kubernetes_deployment" "k8s-proj-back" {
   metadata {
     name = "k8s-proj-back"
-    namespace = "k8s-proj-prod"
+    namespace = module.namespace
     labels = {
       name = "k8s-proj-back"
     }
