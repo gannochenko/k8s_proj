@@ -7,6 +7,7 @@ import { useErrorHandler } from './error-handler';
 import { useCORS } from './cors';
 import { Settings } from './settings';
 import { Template } from './template';
+import { useMetrics } from './metrics';
 
 // import { renderToString } from 'react-dom/server';
 // import Application from "../common/Application";
@@ -25,6 +26,9 @@ app.set('port', port);
 
 // eslint-disable-next-line react-hooks/rules-of-hooks
 useCORS(app, settings);
+// eslint-disable-next-line react-hooks/rules-of-hooks
+useMetrics(app);
+
 app.use(helmet());
 app.use(express.static(path.join(process.cwd(), 'public')));
 

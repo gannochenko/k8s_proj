@@ -1,16 +1,16 @@
 import '@babel/polyfill';
 import { logInfo } from '@bucket-of-bolts/util';
 import { useControllers } from '@bucket-of-bolts/express-mvc';
-import path from 'path';
 import helmet from 'helmet';
 import express from 'express';
 import process from 'process';
 
 import { useErrorHandler } from './lib/error-handler';
 import { useCORS } from './lib/cors';
+import { useMetrics } from './lib/metrics';
 import { Settings } from './lib/settings';
 
-import { Database } from './lib/database';
+// import { Database } from './lib/database';
 
 import { controllers } from './controller';
 
@@ -31,6 +31,7 @@ import { controllers } from './controller';
     // });
 
     await useCORS(app, settings);
+    const metricsInterval = useMetrics(app);
 
     app.use(helmet());
     app.use(express.json());
@@ -40,13 +41,26 @@ import { controllers } from './controller';
         }),
     );
 
-    const database = new Database({ settings });
+    // const database = new Database({ settings });
 
     useControllers(app, controllers, async () => ({
         // connection: await database.getConnection(),
     }));
 
-    app.listen({ port }, () => {
+    const server = app.listen({ port }, () => {
         logInfo(`🚀 Back is ready at http://${host}:${port}`);
+    });
+
+    process.on('SIGTERM', () => {
+        clearInterval(metricsInterval);
+
+        server.close(error => {
+            if (error) {
+                console.error(error);
+                process.exit(1);
+            }
+
+            process.exit(0);
+        });
     });
 })();

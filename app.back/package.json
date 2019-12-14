@@ -39,6 +39,8 @@
         "helmet": "^3.21.2",
         "moment": "^2.24.0",
         "pg": "^7.14.0",
+        "prom-client": "^11.5.3",
+        "response-time": "^2.3.2",
         "typeorm": "^0.2.20"
     },
     "devDependencies": {
@@ -53,6 +55,7 @@
         "@types/helmet": "^0.0.45",
         "@types/jest": "^24.0.23",
         "@types/node": "^12.12.14",
+        "@types/response-time": "^2.3.4",
         "@typescript-eslint/eslint-plugin": "^2.10.0",
         "@typescript-eslint/parser": "^2.10.0",
         "babel-eslint": "^10.0.3",
