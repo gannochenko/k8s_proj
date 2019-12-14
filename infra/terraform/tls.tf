@@ -38,10 +38,10 @@ resource "kubernetes_job" "letsencrypt" {
             name  = "SECRET"
             value = "letsencrypt-certs"
           }
-//          env {
-//            name  = "STAGING"
-//            value = "1"
-//          }
+          env {
+            name  = "STAGING"
+            value = local.staging
+          }
         }
         restart_policy = "Never"
       }
