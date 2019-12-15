@@ -26,7 +26,7 @@ resource "kubernetes_deployment" "k8s-proj-front" {
 
       spec {
         container {
-          image = "awesome1888/k8s_proj_front:1.0.1"
+          image = "awesome1888/k8s_proj_front:${local.version}"
           name  = "k8s-proj-front"
 
           env {
