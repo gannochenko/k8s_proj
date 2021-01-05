@@ -27,7 +27,7 @@
         "@bucket-of-bolts/styled-companion": "^1.0.14",
         "@bucket-of-bolts/ui": "^1.0.17",
         "@bucket-of-bolts/util": "^1.0.14",
-        "axios": "^0.19.0",
+        "axios": "^0.21.1",
         "body-parser": "^1.19.0",
         "connected-react-router": "^6.6.1",
         "cors": "^2.8.5",
