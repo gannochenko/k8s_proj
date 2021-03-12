@@ -95,7 +95,7 @@
         "prettier": "^1.19.1",
         "pretty-quick": "^2.0.1",
         "raw-loader": "^4.0.0",
-        "react-dev-utils": "^9.1.0",
+        "react-dev-utils": "^11.0.4",
         "react-hot-loader": "^4.12.18",
         "redux-mock-store": "^1.5.3",
         "start-server-webpack-plugin": "^2.2.5",
